@@ -7,6 +7,7 @@ public class User
     public string LastName { get; set; }
     public string UserName { get; set; }
     public string Password { get; set; }
+    public string BorrowerCode { get; set; }
 
 
     public User(string firstName, string lastName, string userName, string password)
@@ -15,15 +16,15 @@ public class User
         LastName = lastName;
         UserName = userName;
         Password = password;
+    
     }
+
+
 
     public string FullName()
     {
         return $"{FirstName} {LastName}";
     }
 
-    private string GenerateUniquerBorrowerNumber()
-    {
-        return Guid.NewGuid().ToString().Substring(0, 10).Replace("-", "").ToUpper().Trim();
-    }
+   
 }

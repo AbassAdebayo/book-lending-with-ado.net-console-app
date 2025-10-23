@@ -6,7 +6,23 @@ public class Book
     public string Title { get; set; }
     public string Author { get; set; }
     public string BookDescription { get; set; }
+    
+    public BookStatus Status { get; set; }
+    public DateTime DateBorrowed { get; set; }
+    public DateTime DateToBeReturned { get; set; }
     public DateTime DateCreated { get; set; }
+
+
+    public Book(string title, string author, string bookDescription, BookStatus bookStatus, DateTime dateCreated, DateTime dateBorrowed, DateTime dateToBeReturned)
+    {
+        Title = title;
+        Author = author;
+        BookDescription = bookDescription;
+        DateCreated = dateCreated;
+        Status = bookStatus;
+        DateBorrowed = dateBorrowed;
+        DateToBeReturned = dateToBeReturned;
+    }
 
     public Book(string title, string author, string bookDescription, DateTime dateCreated)
     {
@@ -14,5 +30,13 @@ public class Book
         Author = author;
         BookDescription = bookDescription;
         DateCreated = dateCreated;
+        Status = BookStatus.Available;
+    }
+
+    public enum BookStatus
+    {
+        Available,
+        Borrowed,
+        Reserved
     }
 }

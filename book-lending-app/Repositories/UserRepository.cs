@@ -16,8 +16,8 @@ public class UserRepository
 
     public bool CreateUser(User user)
     {
-        string createUserQuery = "insert into Users (FirstName, LastName, UserName, Password)" +
-                                    "values (@FirstName, @LastName, @UserName, @Password)";
+        string createUserQuery = "insert into Users (FirstName, LastName, UserName, Password, BorrowerCode)" +
+                                    "values (@FirstName, @LastName, @UserName, @Password, @BorrowerCode)";
         int result = 0;
 
         try
@@ -28,6 +28,7 @@ public class UserRepository
                 command.Parameters.AddWithValue("@FirstName", user.FirstName);
                 command.Parameters.AddWithValue("@LastName", user.LastName);
                 command.Parameters.AddWithValue("@UserName", user.UserName);
+                command.Parameters.AddWithValue("@BorrowerCode", GenerateUniqueBorrowerCode(user.FirstName, user.LastName, user.UserName));
                 command.Parameters.AddWithValue("@Password", HashPassword(user.Password));
 
                 result = command.ExecuteNonQuery();
@@ -106,7 +107,18 @@ public class UserRepository
        
 
     }
-    
+
+    private static string GenerateUniqueBorrowerCode(string firstName, string lastName, string userName)
+    {
+        string firstNameLetter = firstName.Substring(0, 1).ToUpper();
+        string lastNameLetter = lastName.Substring(0, 1).ToUpper();
+        string userNameLetter = userName.Substring(0, 2).ToUpper();
+        
+        Random random = new Random();
+        var code = random.Next(0, 10000);
+
+        return $"{firstNameLetter}{lastNameLetter}{userNameLetter}{code}";
+    }
     
     
     private static string HashPassword(string password)

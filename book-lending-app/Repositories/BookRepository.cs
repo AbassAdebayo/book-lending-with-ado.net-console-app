@@ -1,5 +1,6 @@
 using book_lending_app.Entities;
 using MySql.Data.MySqlClient;
+using static book_lending_app.Entities.Book;
 
 namespace book_lending_app.Repositories;
 
@@ -14,8 +15,8 @@ public class BookRepository
     
     public bool CreateBook(Book book)
     {
-        string createBookQuery = "insert into Books (Title, Author, BookDescription, DateCreated)" +
-                                 "values (@Title, @Author, @BookDescription, @DateCreated)";
+        string createBookQuery = "insert into Books (Title, Author, BookDescription, Status, DateCreated)" +
+                                 "values (@Title, @Author, @BookDescription, @Status, @DateCreated)";
         int result = 0;
 
         try
@@ -26,6 +27,7 @@ public class BookRepository
                 command.Parameters.AddWithValue("@Title", book.Title);
                 command.Parameters.AddWithValue("@Author", book.Author);
                 command.Parameters.AddWithValue("@BookDescription", book.BookDescription);
+                command.Parameters.AddWithValue("@Status", book.Status);
                 command.Parameters.AddWithValue("@DateCreated", DateTime.UtcNow);
 
                 result = command.ExecuteNonQuery();
