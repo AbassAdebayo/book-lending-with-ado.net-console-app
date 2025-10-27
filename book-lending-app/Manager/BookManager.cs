@@ -7,10 +7,12 @@ namespace book_lending_app.Manager;
 public class BookManager
 {
     private readonly BookRepository _bookRepository;
+    private readonly UserRepository _userRepository;
 
     public BookManager(MySqlConnection mySqlConnection)
     {
         _bookRepository = new BookRepository(mySqlConnection);
+        
     }
 
     public void AddBook()
@@ -26,11 +28,25 @@ public class BookManager
         
         if(_bookRepository.BookExists(bookTitle, bookAuthor)) Console.WriteLine("Book already exists");
         
-        Book book = new Book(bookTitle, bookAuthor, bookDescription, DateTime.UtcNow);
+        Book book = new Book(bookTitle, bookAuthor, bookDescription, Book.BookStatus.Available);
         
         var createBook = _bookRepository.CreateBook(book);
         var result = createBook ? "Book added successfully" : "Book could not be added";
         Console.WriteLine(result);
        
+    }
+
+    public void BorrowBook()
+    {
+        Console.Write("Enter your borrower code: ");
+        string borrowerCode = Console.ReadLine();
+        
+        Console.Write("Enter book title: ");
+        string bookTitle = Console.ReadLine();
+        
+        Console.Write("Enter book author: ");
+        string bookAuthor = Console.ReadLine();
+        
+        _bookRepository.BorrowBook(borrowerCode, bookTitle, bookAuthor);
     }
 }

@@ -37,7 +37,7 @@ public class Program
     public static void DisplayMenu()
     {
         Console.WriteLine("Welcome to the Book Lending Application!");
-        Console.WriteLine("1. Register\n2. Login\n3. Borrow Book\n4. Return Book\n5. Exit");
+        Console.WriteLine("1. Register\n2. Login\n3. Add Book\n4. Borrow Book\n5. Return Book\n0. Exit");
     }
 
     public static bool Start()
@@ -52,12 +52,12 @@ public class Program
                 _userManager.Login();
                 return true;
             case 3:
-                // _bookManager.BorrowBook();
+                _bookManager.AddBook();
                 return true;
             case 4:
-                // _bookManager.ReturnBook();
+                _bookManager.BorrowBook();
                 return true;
-            case 5:
+            case 0:
                 Console.WriteLine("Thank you for using the Book Lending Application. Goodbye!");
                 return false;
             default:

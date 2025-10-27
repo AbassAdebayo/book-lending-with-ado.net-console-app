@@ -107,6 +107,36 @@ public class UserRepository
        
 
     }
+    public bool GetUserByBorrowerCode(string borrowerCode)
+    {
+        try
+        {
+            string userQuery = "SELECT BorrowerCode from Users WHERE BorrowerCode = @borrowerCode";
+
+            _connection.Open();
+
+            using (MySqlCommand command = new MySqlCommand(userQuery, _connection))
+            {
+                command.Parameters.AddWithValue("@borrowerCode", borrowerCode);
+
+                var result = command.ExecuteScalar();
+
+                if (result == null) return false;
+                return true;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error login in: {ex.Message}");
+            return false;
+        }
+        finally
+        {
+            _connection.Close();
+        }
+
+
+    }
 
     private static string GenerateUniqueBorrowerCode(string firstName, string lastName, string userName)
     {
